@@ -23,14 +23,14 @@ import java.util.function.Function;
         lambdaName = "hello_world",
         roleName = "hello_world-role",
         layers = {"sdk-layer"},
-        runtime = DeploymentRuntime.JAVA21,
+        runtime = DeploymentRuntime.JAVA11,
         architecture = Architecture.ARM64,
         logsExpiration = RetentionSetting.SYNDICATE_ALIASES_SPECIFIED
 )
 @LambdaLayer(
         layerName = "sdk-layer",
         libraries = {"lib/commons-lang3-3.14.0.jar", "lib/gson-2.10.1.jar"},
-        runtime = DeploymentRuntime.JAVA21,
+        runtime = DeploymentRuntime.JAVA11,
         architectures = {Architecture.ARM64},
         artifactExtension = ArtifactExtension.ZIP
 )
@@ -59,7 +59,7 @@ public class HelloWorld implements RequestHandler<APIGatewayV2HTTPEvent, APIGate
     }
 
     private APIGatewayV2HTTPResponse notFoundResponse(APIGatewayV2HTTPEvent requestEvent) {
-        return buildResponse(new Body(SC_BAD_REQUEST, "Bad request syntax or unsupported method. Request path: %s. HTTP method: %s".formatted(
+        return buildResponse(new Body(SC_BAD_REQUEST, String.format("Bad request syntax or unsupported method. Request path: %s. HTTP method: %s",
                 getPath(requestEvent),
                 getMethod(requestEvent)
         )));
@@ -67,7 +67,7 @@ public class HelloWorld implements RequestHandler<APIGatewayV2HTTPEvent, APIGate
 
     private APIGatewayV2HTTPResponse buildResponse(Body body) {
         return APIGatewayV2HTTPResponse.builder()
-                .withStatusCode(body.statusCode())
+                .withStatusCode(body.statusCode)
                 .withHeaders(responseHeaders)
                 .withBody(gson.toJson(body))
                 .build();
@@ -81,10 +81,37 @@ public class HelloWorld implements RequestHandler<APIGatewayV2HTTPEvent, APIGate
         return requestEvent.getRequestContext().getHttp().getPath();
     }
 
-    private record RouteKey(String method, String path) {
+    private class RouteKey {
+        public String method;
+        public String path;
+
+        public RouteKey(String method, String path) {
+            this.method = method;
+            this.path = path;
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            if (obj instanceof RouteKey) {
+                RouteKey rk = (RouteKey) obj;
+                return method.equals(rk.method) && path.equals(rk.path);
+            }
+            return false;
+        }
+
+        @Override
+        public int hashCode() {
+            return path.hashCode();
+        }
     }
 
-    private record Body(int statusCode, String message) {
+    private class Body {
+        public int statusCode;
+        public String message;
 
+        public Body(int statusCode, String message) {
+            this.statusCode = statusCode;
+            this.message = message;
+        }
     }
 }
