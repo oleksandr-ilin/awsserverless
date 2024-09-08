@@ -71,6 +71,6 @@ syndicate generate meta api_gateway_resource_method	\
     --method GET \
     --integration_type lambda \
     --lambda_name hello_world \
-    --authorization_type AWS_IAM \
+    --authorization_type NONE \
     --api_key_required false 
 ```
