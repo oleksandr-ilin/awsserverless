@@ -14,7 +14,8 @@
             "dynamodb:DeleteItem",
             "ssm:PutParameter",
             "ssm:GetParameter",
-            "kms:Decrypt"
+            "kms:Decrypt",
+            "sns:Subscribe"
           ],
           "Effect": "Allow",
           "Resource": "*"
@@ -28,7 +29,8 @@
     "predefined_policies": [],
     "principal_service": "lambda",
     "custom_policies": [
-      "lambda-basic-execution"
+      "lambda-basic-execution",
+      "sqs-lambda-execution-policy"
     ],
     "resource_type": "iam_role"
   },
@@ -40,6 +42,11 @@
     ],
     "resource_type": "iam_role"
   },
+  "lambda_topic": {
+    "resource_type": "sns_topic",
+    "region": "eu-central-1",
+    "event_sources": []
+  },
   "async_queue": {
     "resource_type": "sqs_queue",
     "fifo_queue": false,
@@ -48,19 +55,27 @@
     "delay_seconds": 0,
     "maximum_message_size": 1024,
     "message_retention_period": 60,
-    "receive_message_wait_time_seconds": 20,
+    "receive_message_wait_time_seconds": 0,
     "policy": {},
-    "redrive_policy": {
-      "deadLetterTargetArn": "arn:aws:sqs:eu-central-1:859465876068:dead-letter-queue",
-      "maxReceiveCount": 2
-    },
-    "kms_master_key_id": "b328b33f-51fd-44ab-bdd9-e182a015bffd",
-    "kms_data_key_reuse_period_seconds": 60,
+    "redrive_policy": {},
     "content_based_deduplication": false
   },
-  "lambda_topic": {
-    "resource_type": "sns_topic",
-    "region": "eu-central-1",
-    "event_sources": []
+  "sqs-lambda-execution-policy": {
+    "resource_type": "iam_policy",
+    "policy_content": {
+      "Statement": [
+        {
+          "Action": [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents",
+            "sqs:ReceiveMessage"
+          ],
+          "Effect": "Allow",
+          "Resource": "*"
+        }
+      ],
+      "Version": "2012-10-17"
+    }
   }
 }

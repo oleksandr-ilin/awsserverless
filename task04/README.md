@@ -66,8 +66,22 @@ syndicate generate meta sqs_queue \
     --kms_master_key_id b328b33f-51fd-44ab-bdd9-e182a015bffd \
     --kms_data_key_reuse_period_seconds 60 \
     --content_based_deduplication false 
+
+#or    
+    
+syndicate generate meta sqs_queue \
+    --resource_name async_queue \
+    --region eu-central-1 \
+    --fifo_queue false \
+    --visibility_timeout 30 
+   
       
 syndicate generate meta sns_topic \
     --resource_name lambda_topic \
     --region eu-central-1 
+    
+    
+syndicate generate meta iam_policy \
+    --resource_name sqs-lambda-execution-policy \
+    --policy_content policy.json 
 ```
