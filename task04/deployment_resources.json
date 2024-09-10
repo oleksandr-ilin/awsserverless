@@ -69,7 +69,8 @@
             "logs:CreateLogGroup",
             "logs:CreateLogStream",
             "logs:PutLogEvents",
-            "sqs:ReceiveMessage"
+            "sqs:ReceiveMessage",
+            "sqs:DeleteMessage"
           ],
           "Effect": "Allow",
           "Resource": "*"

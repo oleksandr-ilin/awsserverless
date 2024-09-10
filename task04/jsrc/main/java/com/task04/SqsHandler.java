@@ -27,7 +27,7 @@ import java.util.Map;
         runtime = DeploymentRuntime.JAVA11,
         logsExpiration = RetentionSetting.SYNDICATE_ALIASES_SPECIFIED
 )
-@SqsTriggerEventSource(targetQueue = "async_queue", batchSize = 1)
+@SqsTriggerEventSource(targetQueue = "async_queue", batchSize = 100)
 @DependsOn(
         name = "async_queue",
         resourceType = ResourceType.SQS_QUEUE
