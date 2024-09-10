@@ -15,7 +15,9 @@
             "ssm:PutParameter",
             "ssm:GetParameter",
             "kms:Decrypt",
-            "sns:Subscribe"
+            "sns:Subscribe",
+            "sqs:GetQueueAttributes",
+            "sqs:CreateEventSourceMapping"
           ],
           "Effect": "Allow",
           "Resource": "*"
@@ -25,22 +27,26 @@
     },
     "resource_type": "iam_policy"
   },
-  "sqs_handler-role": {
-    "predefined_policies": [],
-    "principal_service": "lambda",
-    "custom_policies": [
-      "lambda-basic-execution",
-      "sqs-lambda-execution-policy"
-    ],
-    "resource_type": "iam_role"
-  },
-  "sns_handler-role": {
-    "predefined_policies": [],
-    "principal_service": "lambda",
-    "custom_policies": [
-      "lambda-basic-execution"
-    ],
-    "resource_type": "iam_role"
+  "sqs-lambda-execution-policy": {
+    "resource_type": "iam_policy",
+    "policy_content": {
+      "Statement": [
+        {
+          "Action": [
+            "logs:CreateLogGroup",
+            "logs:CreateLogStream",
+            "logs:PutLogEvents",
+            "sqs:ReceiveMessage",
+            "sqs:DeleteMessage",
+            "sqs:GetQueueAttributes",
+            "sqs:CreateEventSourceMapping"
+          ],
+          "Effect": "Allow",
+          "Resource": "*"
+        }
+      ],
+      "Version": "2012-10-17"
+    }
   },
   "lambda_topic": {
     "resource_type": "sns_topic",
@@ -60,23 +66,21 @@
     "redrive_policy": {},
     "content_based_deduplication": false
   },
-  "sqs-lambda-execution-policy": {
-    "resource_type": "iam_policy",
-    "policy_content": {
-      "Statement": [
-        {
-          "Action": [
-            "logs:CreateLogGroup",
-            "logs:CreateLogStream",
-            "logs:PutLogEvents",
-            "sqs:ReceiveMessage",
-            "sqs:DeleteMessage"
-          ],
-          "Effect": "Allow",
-          "Resource": "*"
-        }
-      ],
-      "Version": "2012-10-17"
-    }
+  "sqs_handler-role": {
+    "predefined_policies": [],
+    "principal_service": "lambda",
+    "custom_policies": [
+      "lambda-basic-execution",
+      "sqs-lambda-execution-policy"
+    ],
+    "resource_type": "iam_role"
+  },
+  "sns_handler-role": {
+    "predefined_policies": [],
+    "principal_service": "lambda",
+    "custom_policies": [
+      "lambda-basic-execution"
+    ],
+    "resource_type": "iam_role"
   }
 }
