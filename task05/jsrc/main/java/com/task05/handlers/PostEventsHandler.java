@@ -16,6 +16,8 @@ import com.task05.model.CreatedEventResponse;
 import com.task05.model.EventRequest;
 
 import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 public class PostEventsHandler implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
@@ -43,13 +45,17 @@ public class PostEventsHandler implements RequestHandler<APIGatewayV2HTTPEvent, 
 
             EventRequest eventRequest = objectMapper.readValue(payload, EventRequest.class);
 
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
+                    .withZone(ZoneOffset.UTC);
+
+
             Item item = new Item()
                     .withPrimaryKey("id", UUID.randomUUID().toString())
                     .withInt("principalId", eventRequest.principalId())
-                    .withString("createdAt", Instant.now().toString())
+                    .withString("createdAt", formatter.format(Instant.now()))
                     .withMap("body", eventRequest.content());
 
-            Table table = dynamoDB.getTable("cmtr-2139af1e-Events-test");
+            Table table = dynamoDB.getTable(tableName);
             table.putItem(item);
 
             logger.log("Event saved:");

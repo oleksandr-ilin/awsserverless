@@ -31,7 +31,7 @@ import java.util.Map;
         invokeMode = InvokeMode.BUFFERED
 )
 @EnvironmentVariables(value = {
-        @EnvironmentVariable(key = "table", value = "${events}")})
+        @EnvironmentVariable(key = "table", value = "${target_table}")})
 public class ApiHandler implements RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse> {
 
     private final Map<RouteKey, RequestHandler<APIGatewayV2HTTPEvent, APIGatewayV2HTTPResponse>> handlersByRouteKey;
