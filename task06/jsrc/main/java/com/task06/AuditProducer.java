@@ -24,6 +24,7 @@ import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 
 import static com.amazonaws.services.dynamodbv2.model.OperationType.INSERT;
@@ -61,15 +62,17 @@ public class AuditProducer implements RequestHandler<DynamodbEvent, Void> {
         logger.log("Start configuration change handling. tableAudit: " + tableAudit);
 
         for (DynamodbEvent.DynamodbStreamRecord record : dynamodbEvent.getRecords()) {
-            if (INSERT.equals(record.getEventName())) {
+            if ("INSERT".equals(record.getEventName())) {
                 createAddAudit(logger, ItemUtils.toSimpleMapValue(record.getDynamodb()
                         .getNewImage()));
-            } else if (MODIFY.equals(record.getEventName())) {
+            } else if ("MODIFY".equals(record.getEventName())) {
                 createModifyAudit(logger, ItemUtils.toSimpleMapValue(record.getDynamodb()
                                 .getOldImage()),
                         ItemUtils.toSimpleMapValue(record.getDynamodb()
                                 .getNewImage())
                 );
+            } else {
+                logger.log("Unknown DB event type: " + record.getEventName());
             }
         }
 
@@ -79,7 +82,7 @@ public class AuditProducer implements RequestHandler<DynamodbEvent, Void> {
 
     private void createAddAudit(LambdaLogger logger, Map<String, Object> newValueMap) {
         String id = (String) newValueMap.get("key");
-        String value = (String) newValueMap.get("value");
+        String value = Optional.ofNullable(newValueMap.get("value")).map(Object::toString).orElse("");
 
         logger.log("INSERT key:" + id + " Value: " + value);
 
@@ -92,10 +95,11 @@ public class AuditProducer implements RequestHandler<DynamodbEvent, Void> {
         table.putItem(item);
     }
 
-    private void createModifyAudit(LambdaLogger logger, Map<String, Object> simpleMapValue, Map<String, Object> newValueMap) {
+    private void createModifyAudit(LambdaLogger logger, Map<String, Object> oldValueMap, Map<String, Object> newValueMap) {
         String id = (String) newValueMap.get("key");
-        String newValue = (String) newValueMap.get("value");
-        String oldValue = (String) newValueMap.get("value");
+        String newValue = Optional.ofNullable(newValueMap.get("value")).map(Object::toString).orElse("");
+        String oldValue = Optional.ofNullable(oldValueMap.get("value")).map(Object::toString).orElse("");
+
 
         logger.log("MODIFY key:" + id + " Old Value: " + oldValue  + " New Value: " + newValue );
 
