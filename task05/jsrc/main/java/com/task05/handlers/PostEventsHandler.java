@@ -49,7 +49,7 @@ public class PostEventsHandler implements RequestHandler<APIGatewayV2HTTPEvent, 
                     .withString("createdAt", Instant.now().toString())
                     .withMap("body", eventRequest.content());
 
-            Table table = dynamoDB.getTable(tableName);
+            Table table = dynamoDB.getTable("cmtr-2139af1e-Events-test");
             table.putItem(item);
 
             logger.log("Event saved:");
