@@ -20,6 +20,7 @@ import com.syndicate.deployment.model.ResourceType;
 import com.syndicate.deployment.model.RetentionSetting;
 
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -82,7 +83,7 @@ public class AuditProducer implements RequestHandler<DynamodbEvent, Void> {
 
     private void createAddAudit(LambdaLogger logger, Map<String, Object> newValueMap) {
         String id = (String) newValueMap.get("key");
-        String value = Optional.ofNullable(newValueMap.get("value")).map(Object::toString).orElse("");
+        String value = Optional.ofNullable(newValueMap.get("value")).map(v -> ((BigDecimal) v).toPlainString()).orElse("");
 
         logger.log("INSERT key:" + id + " Value: " + value);
 
@@ -97,8 +98,8 @@ public class AuditProducer implements RequestHandler<DynamodbEvent, Void> {
 
     private void createModifyAudit(LambdaLogger logger, Map<String, Object> oldValueMap, Map<String, Object> newValueMap) {
         String id = (String) newValueMap.get("key");
-        String newValue = Optional.ofNullable(newValueMap.get("value")).map(Object::toString).orElse("");
-        String oldValue = Optional.ofNullable(oldValueMap.get("value")).map(Object::toString).orElse("");
+        String newValue = Optional.ofNullable(newValueMap.get("value")).map(v -> ((BigDecimal) v).toPlainString()).orElse("");
+        String oldValue = Optional.ofNullable(oldValueMap.get("value")).map(v -> ((BigDecimal) v).toPlainString()).orElse("");
 
 
         logger.log("MODIFY key:" + id + " Old Value: " + oldValue  + " New Value: " + newValue );
