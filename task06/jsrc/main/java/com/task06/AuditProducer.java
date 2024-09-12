@@ -83,7 +83,7 @@ public class AuditProducer implements RequestHandler<DynamodbEvent, Void> {
 
     private void createAddAudit(LambdaLogger logger, Map<String, Object> newValueMap) {
         String id = (String) newValueMap.get("key");
-        String value = Optional.ofNullable(newValueMap.get("value")).map(v -> ((BigDecimal) v).toPlainString()).orElse("");
+        String value = Optional.ofNullable(newValueMap.get("value")).map(v -> ((BigDecimal) v).toPlainString()).orElse("0");
 
         logger.log("INSERT key:" + id + " Value: " + value);
 
@@ -91,26 +91,26 @@ public class AuditProducer implements RequestHandler<DynamodbEvent, Void> {
                 .withPrimaryKey("id", UUID.randomUUID().toString())
                 .withString("itemKey", id)
                 .withString("modificationTime", formatter.format(Instant.now()))
-                .withMap("newValue", Map.of("key", id, "value", value ));
+                .withMap("newValue", Map.of("key", id, "value", Integer.parseInt(value)));
 
         table.putItem(item);
     }
 
     private void createModifyAudit(LambdaLogger logger, Map<String, Object> oldValueMap, Map<String, Object> newValueMap) {
         String id = (String) newValueMap.get("key");
-        String newValue = Optional.ofNullable(newValueMap.get("value")).map(v -> ((BigDecimal) v).toPlainString()).orElse("");
-        String oldValue = Optional.ofNullable(oldValueMap.get("value")).map(v -> ((BigDecimal) v).toPlainString()).orElse("");
+        String newValue = Optional.ofNullable(newValueMap.get("value")).map(v -> ((BigDecimal) v).toPlainString()).orElse("0");
+        String oldValue = Optional.ofNullable(oldValueMap.get("value")).map(v -> ((BigDecimal) v).toPlainString()).orElse("0");
 
 
-        logger.log("MODIFY key:" + id + " Old Value: " + oldValue  + " New Value: " + newValue );
+        logger.log("MODIFY key:" + id + " Old Value: " + oldValue + " New Value: " + newValue);
 
         Item item = new Item()
                 .withPrimaryKey("id", UUID.randomUUID().toString())
                 .withString("itemKey", id)
                 .withString("modificationTime", formatter.format(Instant.now()))
                 .withString("updatedAttribute", "value")
-                .withString("oldValue", oldValue)
-                .withString("newValue", newValue);
+                .withInt("oldValue", Integer.parseInt(oldValue))
+                .withInt("newValue", Integer.parseInt(newValue));
 
         table.putItem(item);
 
