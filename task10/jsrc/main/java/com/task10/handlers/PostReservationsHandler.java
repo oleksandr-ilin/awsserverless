@@ -11,7 +11,10 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.task10.data.Reservation;
+import com.task10.data.ReservationResponse;
 import com.task10.data.SimpleResponse;
+
+import java.util.UUID;
 
 public class PostReservationsHandler  extends BaseHandler {
 
@@ -35,8 +38,10 @@ public class PostReservationsHandler  extends BaseHandler {
             Reservation reservation = fromJson(requestEvent.getBody(), Reservation.class);
             logger.log("Found request Reservation entry: " + reservation);
 
+            String reservationId = UUID.randomUUID().toString();
             Item item = new Item()
-                    .withPrimaryKey("id", "" + reservation.tableNumber())
+                    .withPrimaryKey("id", reservationId)
+                    .withInt("tableNumber", reservation.tableNumber())
                     .withString("clientName", reservation.clientName())
                     .withString("phoneNumber", reservation.phoneNumber())
                     .withString("date", reservation.date())
@@ -51,7 +56,7 @@ public class PostReservationsHandler  extends BaseHandler {
 
             return new APIGatewayProxyResponseEvent()
                     .withStatusCode(200)
-                    .withBody(toJson(new SimpleResponse("Reservation has been added")));
+                    .withBody(toJson(new ReservationResponse(reservationId)));
         } catch (Exception ex) {
             logger.log("Get tables error: " + ex);
             return new APIGatewayProxyResponseEvent()

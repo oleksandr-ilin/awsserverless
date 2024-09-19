@@ -12,6 +12,7 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.task10.data.OrderedTable;
 import com.task10.data.SimpleResponse;
+import com.task10.data.TablesResponse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +63,7 @@ public class GetTablesHandler extends BaseHandler {
 
             return new APIGatewayProxyResponseEvent()
                     .withStatusCode(200)
-                    .withBody(toJson(resultTables));
+                    .withBody(toJson(new TablesResponse(resultTables)));
         } catch (Exception ex) {
             logger.log("Get tables error: " + ex);
             return new APIGatewayProxyResponseEvent()

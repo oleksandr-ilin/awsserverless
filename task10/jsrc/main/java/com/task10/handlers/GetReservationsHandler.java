@@ -43,7 +43,7 @@ public class GetReservationsHandler  extends BaseHandler {
             for (Map<String, AttributeValue> item : result.getItems()) {
 
                 var reservation = new Reservation(
-                        Integer.valueOf(item.get("id").getS()),
+                        Integer.valueOf(item.get("tableNumber").getN()),
                         item.get("clientName").getS(),
                         item.get("phoneNumber").getS(),
                         item.get("date").getS(),
