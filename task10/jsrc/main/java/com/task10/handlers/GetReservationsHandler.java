@@ -14,6 +14,7 @@ import com.task10.data.Reservation;
 import com.task10.data.SimpleResponse;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -58,6 +59,7 @@ public class GetReservationsHandler  extends BaseHandler {
             }
 
             logger.log("Success getting Reservations ");
+            resultReservations.sort(Comparator.comparingInt(Reservation::tableNumber));
 
             return new APIGatewayProxyResponseEvent()
                     .withStatusCode(200)

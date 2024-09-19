@@ -78,6 +78,16 @@ Expected reservations
 ]}
 ```
 
+Better actual:
+
+```json
+[
+  {"tableNumber":2,"clientName":"Test User","phoneNumber":"0971111111","date":"2024-09-20","slotTimeStart":"12:00","slotTimeEnd":"15:00"},
+  {"tableNumber":3,"clientName":"Test User","phoneNumber":"0971111111","date":"2024-09-20","slotTimeStart":"12:00","slotTimeEnd":"15:00"},
+  {"tableNumber":1,"clientName":"Test User","phoneNumber":"0971111111","date":"2024-09-20","slotTimeStart":"12:00","slotTimeEnd":"15:00"}]"
+  ]
+```
+
 Actual without validations:
 
 ```json
