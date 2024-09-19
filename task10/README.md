@@ -64,7 +64,27 @@ curl https://api-id.execute-api.eu-central-1.amazonaws.com/api/tables/3 -H "Auth
 curl https://api-id.execute-api.eu-central-1.amazonaws.com/api/reservations -H "Authorization: Bearer put-token-here"
 
 curl -X POST https://api-id.execute-api.eu-central-1.amazonaws.com/api/reservations -d "{\"tableNumber\": 88, \"clientName\": \"Lobster Crab\", \"phoneNumber\": \"949-123-4343\", \"date\": \"2024-09-29\", \"slotTimeStart\": \"13:00\", \"slotTimeEnd\": \"15:00\" }" -H "Authorization: Bearer put-token-here"
-
-
 ```
 
+## Test data
+
+Expected reservations 
+
+```json
+{"reservations": [
+  {"tableNumber": 1, "clientName": "Test User", "phoneNumber": "0971111111", "date": "2024-09-20", "slotTimeStart": "12:00", "slotTimeEnd": "15:00"}, 
+  {"tableNumber": 2, "clientName": "Test User", "phoneNumber": "0971111111", "date": "2024-09-20", "slotTimeStart": "12:00", "slotTimeEnd": "15:00"}, 
+  {"tableNumber": 3, "clientName": "Test User", "phoneNumber": "0971111111", "date": "2024-09-20", "slotTimeStart": "12:00", "slotTimeEnd": "15:00"}
+]}
+```
+
+Actual without validations:
+
+```json
+[
+  {"tableNumber":2,"clientName":"Test User","phoneNumber":"0971111111","date":"2024-09-20","slotTimeStart":"12:00","slotTimeEnd":"15:00"},
+  {"tableNumber":1,"clientName":"Test User","phoneNumber":"0971111111","date":"2024-09-20","slotTimeStart":"12:00","slotTimeEnd":"15:00"},
+  {"tableNumber":10,"clientName":"Test User","phoneNumber":"0971111111","date":"2024-09-20","slotTimeStart":"18:00","slotTimeEnd":"21:00"},
+  {"tableNumber":3,"clientName":"Test User","phoneNumber":"0971111111","date":"2024-09-20","slotTimeStart":"12:00","slotTimeEnd":"15:00"},
+  {"tableNumber":1,"clientName":"Test User","phoneNumber":"0971111111","date":"2024-09-20","slotTimeStart":"12:00","slotTimeEnd":"15:00"}]
+```
