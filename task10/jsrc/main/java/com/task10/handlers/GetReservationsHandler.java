@@ -11,6 +11,8 @@ import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyResponseEvent;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.task10.data.Reservation;
+import com.task10.data.ReservationResponse;
+import com.task10.data.ReservationsResponse;
 import com.task10.data.SimpleResponse;
 
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-public class GetReservationsHandler  extends BaseHandler {
+public class GetReservationsHandler extends BaseHandler {
 
     private final String reservationsTable;
 
@@ -50,7 +52,7 @@ public class GetReservationsHandler  extends BaseHandler {
                         item.get("date").getS(),
                         item.get("slotTimeStart").getS(),
                         item.get("slotTimeEnd").getS()
-                        );
+                );
 
                 resultReservations.add(reservation);
 
@@ -63,7 +65,7 @@ public class GetReservationsHandler  extends BaseHandler {
 
             return new APIGatewayProxyResponseEvent()
                     .withStatusCode(200)
-                    .withBody(toJson(resultReservations));
+                    .withBody(toJson(new ReservationsResponse(resultReservations)));
         } catch (Exception ex) {
             logger.log("Get reservations error: " + ex);
             return new APIGatewayProxyResponseEvent()
