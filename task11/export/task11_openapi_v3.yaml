@@ -1,7 +1,9 @@
 openapi: 3.0.1
+x-stoplight:
+  id: q87ugdgt30lfk
 info:
-  version: '2024-09-19T22:56:24Z'
   title: task11_api
+  version: '2024-09-19T22:56:24Z'
   description: Task 11 OpenAPI documentation AWS service
   contact:
     name: Alex ILIN
@@ -18,19 +20,13 @@ paths:
     post:
       summary: Creates a new user
       description: SignUp as a new user
-      operationId: signup-post
-      requestBody:
-        $ref: '#/components/requestBodies/SignUpRequest'
       responses:
         '200':
           $ref: '#/components/responses/SimpleResponse'
         '400':
           $ref: '#/components/responses/SimpleResponse'
-      servers:
-        - url: 'https://h0t2ih92e3.execute-api.eu-central-1.amazonaws.com/{basePath}'
-          variables:
-            basePath:
-              default: api
+      requestBody:
+        $ref: '#/components/requestBodies/SignUpRequest'
       x-amazon-apigateway-integration:
         type: aws_proxy
         httpMethod: POST
@@ -41,15 +37,13 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: '''*'''
         passthroughBehavior: when_no_match
+      x-stoplight:
+        id: ew3qkopjmwlhz
+      operationId: signup-post
     options:
-      operationId: signup-options
       responses:
         '200':
           description: 200 response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Empty'
           headers:
             Access-Control-Allow-Origin:
               schema:
@@ -60,11 +54,10 @@ paths:
             Access-Control-Allow-Headers:
               schema:
                 type: string
-      servers:
-        - url: 'https://h0t2ih92e3.execute-api.eu-central-1.amazonaws.com/{basePath}'
-          variables:
-            basePath:
-              default: api
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
       x-amazon-apigateway-integration:
         type: mock
         responses:
@@ -77,23 +70,16 @@ paths:
         requestTemplates:
           application/json: '{"statusCode": 200}'
         passthroughBehavior: when_no_match
+      x-stoplight:
+        id: g80xxzcbpeeoz
+      operationId: signup-options
   /signin:
     post:
-      summary: SignIn
-      description: Execute the Sign In operation to authenticate and authorize the user and get the access token
-      operationId: signin-post
-      requestBody:
-        $ref: '#/components/requestBodies/SignInRequest'
       responses:
         '200':
           $ref: '#/components/responses/SignInResponse'
         '400':
           $ref: '#/components/responses/SimpleResponse'
-      servers:
-        - url: 'https://h0t2ih92e3.execute-api.eu-central-1.amazonaws.com/{basePath}'
-          variables:
-            basePath:
-              default: api
       x-amazon-apigateway-integration:
         type: aws_proxy
         httpMethod: POST
@@ -104,15 +90,17 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: '''*'''
         passthroughBehavior: when_no_match
+      x-stoplight:
+        id: 5oc8sxwk60ay8
+      operationId: signin-post
+      summary: SignIn
+      description: Execute the Sign In operation to authenticate and authorize the user and get the access token
+      requestBody:
+        $ref: '#/components/requestBodies/SignInRequest'
     options:
-      operationId: signin-options
       responses:
         '200':
           description: 200 response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Empty'
           headers:
             Access-Control-Allow-Origin:
               schema:
@@ -123,11 +111,10 @@ paths:
             Access-Control-Allow-Headers:
               schema:
                 type: string
-      servers:
-        - url: 'https://h0t2ih92e3.execute-api.eu-central-1.amazonaws.com/{basePath}'
-          variables:
-            basePath:
-              default: api
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
       x-amazon-apigateway-integration:
         type: mock
         responses:
@@ -140,11 +127,13 @@ paths:
         requestTemplates:
           application/json: '{"statusCode": 200}'
         passthroughBehavior: when_no_match
+      x-stoplight:
+        id: jdg6uljzw7bjg
+      operationId: signin-options
   /tables:
     get:
       summary: Lists all tables
       description: Loads all tables from **DynamoDB** and lists it as *json* response
-      operationId: tables-get
       responses:
         '200':
           $ref: '#/components/responses/TableListResponse'
@@ -152,11 +141,6 @@ paths:
           $ref: '#/components/responses/SimpleResponse'
       security:
         - authorizer: []
-      servers:
-        - url: 'https://h0t2ih92e3.execute-api.eu-central-1.amazonaws.com/{basePath}'
-          variables:
-            basePath:
-              default: api
       x-amazon-apigateway-integration:
         type: aws_proxy
         httpMethod: POST
@@ -167,12 +151,12 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: '''*'''
         passthroughBehavior: when_no_match
+      x-stoplight:
+        id: 0fy7texqs3k9c
+      operationId: tables-get
     post:
       summary: Adds a new table
       description: Adds a new table and store it in the **DynamoDB**
-      operationId: tables-post
-      requestBody:
-        $ref: '#/components/requestBodies/NewTableRequest'
       responses:
         '200':
           $ref: '#/components/responses/NewTableAddedResponse'
@@ -180,11 +164,6 @@ paths:
           $ref: '#/components/responses/SimpleResponse'
       security:
         - authorizer: []
-      servers:
-        - url: 'https://h0t2ih92e3.execute-api.eu-central-1.amazonaws.com/{basePath}'
-          variables:
-            basePath:
-              default: api
       x-amazon-apigateway-integration:
         type: aws_proxy
         httpMethod: POST
@@ -195,15 +174,15 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: '''*'''
         passthroughBehavior: when_no_match
+      x-stoplight:
+        id: 7q3tm6vylmi0m
+      operationId: tables-post
+      requestBody:
+        $ref: '#/components/requestBodies/NewTableRequest'
     options:
-      operationId: tables-options
       responses:
         '200':
           description: 200 response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Empty'
           headers:
             Access-Control-Allow-Origin:
               schema:
@@ -214,11 +193,10 @@ paths:
             Access-Control-Allow-Headers:
               schema:
                 type: string
-      servers:
-        - url: 'https://h0t2ih92e3.execute-api.eu-central-1.amazonaws.com/{basePath}'
-          variables:
-            basePath:
-              default: api
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
       x-amazon-apigateway-integration:
         type: mock
         responses:
@@ -231,15 +209,17 @@ paths:
         requestTemplates:
           application/json: '{"statusCode": 200}'
         passthroughBehavior: when_no_match
+      x-stoplight:
+        id: yky7x9ww3hro7
+      operationId: tables-options
   '/tables/{tableId}':
     get:
       summary: Shows the table details
       description: Finds the table information by the **table Id**
-      operationId: tables-byid-get
       parameters:
         - name: tableId
-          in: path
           description: The table number which information you are looking for
+          in: path
           required: true
           schema:
             type: string
@@ -250,11 +230,6 @@ paths:
           $ref: '#/components/responses/SimpleResponse'
       security:
         - authorizer: []
-      servers:
-        - url: 'https://h0t2ih92e3.execute-api.eu-central-1.amazonaws.com/{basePath}'
-          variables:
-            basePath:
-              default: api
       x-amazon-apigateway-integration:
         type: aws_proxy
         httpMethod: POST
@@ -265,22 +240,20 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: '''*'''
         passthroughBehavior: when_no_match
+      x-stoplight:
+        id: dl1vqgohgecxj
+      operationId: tables-byid-get
     options:
-      operationId: tables-byid-options
       parameters:
         - name: tableId
-          in: path
           description: The table number which information you are looking for
+          in: path
           required: true
           schema:
             type: string
       responses:
         '200':
           description: 200 response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Empty'
           headers:
             Access-Control-Allow-Origin:
               schema:
@@ -291,11 +264,10 @@ paths:
             Access-Control-Allow-Headers:
               schema:
                 type: string
-      servers:
-        - url: 'https://h0t2ih92e3.execute-api.eu-central-1.amazonaws.com/{basePath}'
-          variables:
-            basePath:
-              default: api
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
       x-amazon-apigateway-integration:
         type: mock
         responses:
@@ -308,11 +280,13 @@ paths:
         requestTemplates:
           application/json: '{"statusCode": 200}'
         passthroughBehavior: when_no_match
+      x-stoplight:
+        id: 83rdfe2967cbq
+      operationId: tables-byid-options
   /reservations:
     get:
       summary: Lists all reservations
       description: Loads all reservations from **DynamoDB** and lists it as *json* response
-      operationId: reservations-get
       responses:
         '200':
           $ref: '#/components/responses/ReservationListResponse'
@@ -320,11 +294,6 @@ paths:
           $ref: '#/components/responses/SimpleResponse'
       security:
         - authorizer: []
-      servers:
-        - url: 'https://h0t2ih92e3.execute-api.eu-central-1.amazonaws.com/{basePath}'
-          variables:
-            basePath:
-              default: api
       x-amazon-apigateway-integration:
         type: aws_proxy
         httpMethod: POST
@@ -335,15 +304,15 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: '''*'''
         passthroughBehavior: when_no_match
+      x-stoplight:
+        id: dl37o7b20rmf0
+      operationId: reservations-get
     post:
       summary: Add a new reservation
       description: |-
         Adds a new reservation if:
         - requested *table* exists and 
         - it does not overlap other existed reservations for this *table*
-      operationId: reservations-post
-      requestBody:
-        $ref: '#/components/requestBodies/AddNewReservationRequest'
       responses:
         '200':
           $ref: '#/components/responses/ReservationResultResponse'
@@ -351,11 +320,6 @@ paths:
           $ref: '#/components/responses/SimpleResponse'
       security:
         - authorizer: []
-      servers:
-        - url: 'https://h0t2ih92e3.execute-api.eu-central-1.amazonaws.com/{basePath}'
-          variables:
-            basePath:
-              default: api
       x-amazon-apigateway-integration:
         type: aws_proxy
         httpMethod: POST
@@ -366,15 +330,15 @@ paths:
             responseParameters:
               method.response.header.Access-Control-Allow-Origin: '''*'''
         passthroughBehavior: when_no_match
+      x-stoplight:
+        id: jm677if92jqgg
+      operationId: reservations-post
+      requestBody:
+        $ref: '#/components/requestBodies/AddNewReservationRequest'
     options:
-      operationId: reservations-options
       responses:
         '200':
           description: 200 response
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Empty'
           headers:
             Access-Control-Allow-Origin:
               schema:
@@ -385,11 +349,10 @@ paths:
             Access-Control-Allow-Headers:
               schema:
                 type: string
-      servers:
-        - url: 'https://h0t2ih92e3.execute-api.eu-central-1.amazonaws.com/{basePath}'
-          variables:
-            basePath:
-              default: api
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Empty'
       x-amazon-apigateway-integration:
         type: mock
         responses:
@@ -402,39 +365,123 @@ paths:
         requestTemplates:
           application/json: '{"statusCode": 200}'
         passthroughBehavior: when_no_match
-tags:
-  - name: task11
+      x-stoplight:
+        id: 845btsk0m29ot
+      operationId: reservations-options
 components:
+  schemas:
+    Empty:
+      title: Empty Schema
+      type: object
+      x-stoplight:
+        id: pcx5wnu8zy378
+    Table:
+      type: object
+      x-examples:
+        Example 1:
+          id: 5
+          number: 12
+          places: 5
+          isVip: true
+          minOrder: 120
+      required:
+        - id
+        - number
+        - places
+        - isVip
+      properties:
+        id:
+          type: integer
+          example: 25
+          minimum: 1
+          format: int64
+        number:
+          type: integer
+          minimum: 1
+          maximum: 1000
+          example: 12
+          format: int32
+        places:
+          type: integer
+          format: int32
+          example: 5
+          minimum: 1
+          maximum: 100
+        isVip:
+          type: boolean
+        minOrder:
+          type: integer
+    Reservation:
+      type: object
+      x-examples:
+        Example 1:
+          tableNumber: 12
+          clientName: Jim Smith
+          phoneNumber: 949 231-3421
+          date: '2024-09-20'
+          slotTimeStart: '13:00'
+          slotTimeEnd: '15:00'
+      required:
+        - tableNumber
+        - clientName
+        - phoneNumber
+        - date
+        - slotTimeStart
+        - slotTimeEnd
+      properties:
+        tableNumber:
+          type: integer
+          format: int32
+          minimum: 1
+          example: 12
+        clientName:
+          type: string
+          example: Jim Smith
+        phoneNumber:
+          type: string
+          example: 949 213-3433
+        date:
+          type: string
+          format: date
+          example: '2024-09-20'
+        slotTimeStart:
+          type: string
+          example: '3:00'
+          pattern: '^[0-2]{0,1}\d:[0-5]\d$'
+        slotTimeEnd:
+          type: string
+          example: '15:00'
+          pattern: '^[0-2]{0,1}\d:[0-5]\d$'
   requestBodies:
     SignUpRequest:
       content:
         application/json:
           schema:
-            type: object
             title: SignUpRequest
+            type: object
             description: A new user data
-            properties:
-              firstName:
-                type: string
-                description: The user First Name
-                example: Mary
-              lastName:
-                type: string
-                description: The user Last Name
-                example: Smith
-              email:
-                type: string
-                description: The user email which would be used as unique user identifier in the system
-                example: mary-smith@example.com
-              password:
-                type: string
-                description: 'The user password. Should be alphanumeric + any of "$%^*", 12+ chars'
-                pattern: '^(?=.*[A-Za-z0-9])(?=.*[$%^*]).{12,}$'
-                example: testPass34$354545
             required:
               - firstName
               - lastName
               - email
+            properties:
+              firstName:
+                type: string
+                example: Mary
+                description: The user First Name
+              lastName:
+                type: string
+                example: Smith
+                description: The user Last Name
+              email:
+                type: string
+                example: mary-smith@example.com
+                description: The user email which would be used as unique user identifier in the system
+              password:
+                type: string
+                example: testPass34$354545
+                description: 'The user password. Should be alphanumeric + any of "$%^*", 12+ chars'
+                pattern: '^(?=.*[A-Za-z0-9])(?=.*[$%^*]).{12,}$'
           examples:
             Example 1:
               value:
@@ -443,7 +490,6 @@ components:
                 email: mary-smith@example.com
                 password: testPass34$354545
     SignInRequest:
-      description: Used to sign in and receive the acess token
       content:
         application/json:
           schema:
@@ -451,25 +497,30 @@ components:
             properties:
               email:
                 type: string
+                x-stoplight:
+                  id: aozm0rg6lzxjk
                 format: email
-                minLength: 6
                 example: test@email.com
+                minLength: 6
               password:
                 type: string
-                format: password
+                x-stoplight:
+                  id: nz0zkbwn2g9up
                 pattern: '^(?=.*[A-Za-z0-9])(?=.*[$%^*]).{12,}$'
-                minLength: 12
                 example: testPass34$354545
+                format: password
+                minLength: 12
           examples:
             Example 1:
               value:
                 email: test@email.com
                 password: testPass34$354545
+      description: Used to sign in and receive the acess token
     NewTableRequest:
-      description: New Table Request
       content:
         application/json:
           schema:
+            type: object
             $ref: '#/components/schemas/Table'
           examples:
             Example 1:
@@ -479,11 +530,12 @@ components:
                 places: 5
                 isVip: true
                 minOrder: 0
+      description: New Table Request
     AddNewReservationRequest:
-      description: New Reservation
       content:
         application/json:
           schema:
+            type: object
             $ref: '#/components/schemas/Reservation'
           examples:
             Example 1:
@@ -494,6 +546,7 @@ components:
                 date: '2024-09-20'
                 slotTimeStart: '3:00'
                 slotTimeEnd: '15:00'
+      description: New Reservation
   securitySchemes:
     authorizer:
       type: apiKey
@@ -544,6 +597,8 @@ components:
             type: object
             properties:
               tables:
+                x-stoplight:
+                  id: vilmhcknr2ybb
                 type: array
                 items:
                   $ref: '#/components/schemas/Table'
@@ -576,16 +631,13 @@ components:
         application/json:
           schema:
             type: object
+            example:
+              id: 24
             properties:
               id:
                 type: integer
                 format: int64
-            example:
-              id: 24
-          examples:
-            default:
-              value:
-                id: 24
+          examples: {}
     ReservationResultResponse:
       description: Just added reservation
       content:
@@ -595,6 +647,8 @@ components:
             properties:
               reservationId:
                 type: string
+                x-stoplight:
+                  id: 9pvvbhlxi1viq
           examples:
             Example 1:
               value:
@@ -607,87 +661,10 @@ components:
             type: object
             properties:
               reservations:
+                x-stoplight:
+                  id: 1xb6utzgl99kg
                 type: array
                 items:
                   $ref: '#/components/schemas/Reservation'
-  schemas:
-    Empty:
-      type: object
-      title: Empty Schema
-    Table:
-      type: object
-      properties:
-        id:
-          type: integer
-          format: int64
-          minimum: 1
-          example: 25
-        number:
-          type: integer
-          format: int32
-          minimum: 1
-          maximum: 1000
-          example: 12
-        places:
-          type: integer
-          format: int32
-          minimum: 1
-          maximum: 100
-          example: 5
-        isVip:
-          type: boolean
-        minOrder:
-          type: integer
-      required:
-        - id
-        - number
-        - places
-        - isVip
-      x-examples:
-        Example 1:
-          id: 5
-          number: 12
-          places: 5
-          isVip: true
-          minOrder: 120
-    Reservation:
-      type: object
-      properties:
-        tableNumber:
-          type: integer
-          format: int32
-          minimum: 1
-          example: 12
-        clientName:
-          type: string
-          example: Jim Smith
-        phoneNumber:
-          type: string
-          example: 949 213-3433
-        date:
-          type: string
-          format: date
-          example: '2024-09-20'
-        slotTimeStart:
-          type: string
-          pattern: '^[0-2]{0,1}\d:[0-5]\d$'
-          example: '3:00'
-        slotTimeEnd:
-          type: string
-          pattern: '^[0-2]{0,1}\d:[0-5]\d$'
-          example: '15:00'
-      required:
-        - tableNumber
-        - clientName
-        - phoneNumber
-        - date
-        - slotTimeStart
-        - slotTimeEnd
-      x-examples:
-        Example 1:
-          tableNumber: 12
-          clientName: Jim Smith
-          phoneNumber: 949 231-3421
-          date: '2024-09-20'
-          slotTimeStart: '13:00'
-          slotTimeEnd: '15:00'
+tags:
+  - name: task11
