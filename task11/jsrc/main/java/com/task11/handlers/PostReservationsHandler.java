@@ -70,10 +70,10 @@ public class PostReservationsHandler extends BaseHandler {
                     .withBody(toJson(new ReservationResponse(reservationId)));
 
         } catch (Exception ex) {
-            logger.log("Get tables error: " + ex);
+            logger.log("Can't add the reservation: " + ex);
             return new APIGatewayProxyResponseEvent()
                     .withStatusCode(400)
-                    .withBody(toJson(new SimpleResponse("Get tables error: " + ex)));
+                    .withBody(toJson(new SimpleResponse("Can't add the reservation: " + ex)));
         }
     }
 

@@ -38,7 +38,7 @@ public class PostSignInHandler extends CognitoAwareHandler {
             logger.log("SignIn Error: " + e);
             return new APIGatewayProxyResponseEvent()
                     .withStatusCode(400)
-                    .withBody(toJson(new SimpleResponse("Sign up error: " + e)));
+                    .withBody(toJson(new SimpleResponse("Sign in error: " + e)));
         }
     }
 }

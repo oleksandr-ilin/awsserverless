@@ -58,7 +58,7 @@ public class PostTablesHandler extends BaseHandler {
             logger.log("Get tables error: " + ex);
             return new APIGatewayProxyResponseEvent()
                     .withStatusCode(400)
-                    .withBody(toJson(new SimpleResponse("Get tables error: " + ex)));
+                    .withBody(toJson(new SimpleResponse("Create the new table error: " + ex)));
         }
     }
 }
